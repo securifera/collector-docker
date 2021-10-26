@@ -16,9 +16,14 @@ WORKDIR /root
 ARG gitpwd
 ARG gituser
 
+ARG cafile
+ADD $cafile /usr/local/share/ca-certificates/
+
 # install initial tools
 RUN apt update
+RUN apt install -y ca-certificates
 RUN apt install -y sudo wget curl net-tools git
+RUN update-ca-certificates
 
 # install python pip
 RUN apt install -y python3-pip
@@ -52,11 +57,15 @@ RUN python3 -m pip install netaddr
 RUN python3 -m pip install python-libnmap
 
 # Install nuclei
-RUN cd /opt && \
-    git clone https://github.com/projectdiscovery/nuclei.git && \
-    cd nuclei/v2/cmd/nuclei && \
-    /usr/local/go/bin/go build && \
-    mv nuclei /usr/local/bin/
+#RUN cd /opt && \
+#    git clone https://github.com/projectdiscovery/nuclei.git && \
+#    cd nuclei/v2/cmd/nuclei && \
+#    /usr/local/go/bin/go build && \
+#    mv nuclei /usr/local/bin/
+RUN apt install -y jq unzip
+RUN curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | wget -i -
+RUN unzip nuclei*.zip
+RUN mv nuclei /usr/local/bin
 RUN nuclei -ut
     
 # Screenshot dependencies
@@ -64,13 +73,13 @@ RUN python3 -m pip install selenium
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 RUN apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
-RUN apt install -y unzip libxml2-utils imagemagick
+RUN apt install -y libxml2-utils imagemagick
 
 WORKDIR /root/waluigi
 RUN git clone https://github.com/securifera/pyshot.git
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
-RUN wget https://chromedriver.storage.googleapis.com/$(curl https://chromedriver.storage.googleapis.com/ 2>/dev/null | xmllint --format - | grep $(google-chrome-stable --version | awk '{print $3;}' | sed 's/\.[[:digit:]]\+$//') | grep linux | tail -1 | sed 's/<Key>//' | sed 's/<\/Key>//' | sed -e 's/^[[:space:]]*//')
+RUN curl --resolve chromedriver.storage.googleapis.com:443:142.250.114.128 --output chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$(curl --resolve chromedriver.storage.googleapis.com:443:142.250.114.128 https://chromedriver.storage.googleapis.com/ 2>/dev/null | xmllint --format - | grep $(google-chrome-stable --version | awk '{print $3;}' | sed 's/\.[[:digit:]]\+$//') | grep linux | tail -1 | sed 's/<Key>//' | sed 's/<\/Key>//' | sed -e 's/^[[:space:]]*//')
 RUN unzip chromedriver_linux64.zip
 RUN mv chromedriver /usr/bin
 RUN wget -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
