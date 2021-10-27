@@ -40,13 +40,6 @@ RUN git clone -c http.sslVerify=false https://$gituser:$gitpwd@github.com/recons
 # dependencies
 RUN apt install -y libssl-dev libpcap-dev masscan autoconf
 
-# golang
-RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
-RUN rm -rf /usr/local/go 
-RUN tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz
-RUN rm go1.16.5.linux-amd64.tar.gz
-RUN echo export PATH=$PATH:/usr/local/go/bin >> ~/.profile
-
 # install nmap
 RUN apt install -y build-essential
 RUN git clone https://github.com/nmap/nmap.git
@@ -57,16 +50,12 @@ RUN python3 -m pip install netaddr
 RUN python3 -m pip install python-libnmap
 
 # Install nuclei
-#RUN cd /opt && \
-#    git clone https://github.com/projectdiscovery/nuclei.git && \
-#    cd nuclei/v2/cmd/nuclei && \
-#    /usr/local/go/bin/go build && \
-#    mv nuclei /usr/local/bin/
 RUN apt install -y jq unzip
 RUN curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | wget -i -
 RUN unzip nuclei*.zip
 RUN mv nuclei /usr/local/bin
-RUN nuclei -ut
+RUN git clone https://github.com/reconsec/nuclei-templates.git
+
     
 # Screenshot dependencies
 RUN python3 -m pip install selenium
@@ -87,7 +76,11 @@ RUN tar -C /tmp -xvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
 RUN cp /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 RUN rm chromedriver_linux64.zip
 RUN rm google-chrome-stable_current_amd64.deb
-RUN /usr/local/go/bin/go get github.com/cgboal/sonarsearch/cmd/crobat
+
+# Crobat
+RUN curl -s https://api.github.com/repos/reconsec/SonarSearch/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux-amd64\")) | .browser_download_url" | wget -i -
+RUN unzip crobat*.zip
+RUN mv crobat /usr/local/bin
 
 # Install and configure SSHD.
 RUN apt install -y openssh-server
