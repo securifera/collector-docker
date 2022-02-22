@@ -107,10 +107,6 @@ RUN echo $apikey > /root/.collector_api_key
 ADD scan-poller /etc/init.d/scan-poller
 RUN chmod 755 /etc/init.d/scan-poller
 
-# Create luigi config
-RUN echo "[worker]" > /opt/collector/luigi.cfg
-RUN echo "no_install_shutdown_handler=True" >> /opt/collector/luigi.cfg
-
 RUN echo "#!/bin/bash" > /root/start.sh
 RUN echo "service scan-poller start" >> /root/start.sh
 RUN echo "/usr/sbin/sshd -D -o ListenAddress=0.0.0.0" >> /root/start.sh
