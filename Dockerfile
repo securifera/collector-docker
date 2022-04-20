@@ -39,8 +39,8 @@ RUN cd waluigi && sudo python3 setup.py install
 
 # Luigi workaround for signal issues
 RUN mkdir /opt/collector
-RUN echo [worker] > /opt/collector/luigi.cfg
-RUN echo no_install_shutdown_handler=True >> /opt/collector/luigi.cfg
+RUN echo [worker] | tee /opt/collector/luigi.cfg
+RUN echo no_install_shutdown_handler=True | tee -a /opt/collector/luigi.cfg
 
 
 ###############
