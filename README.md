@@ -3,6 +3,20 @@ Dockerfile for manual installation of Recon collector tools
 
 
 ### BUILD INSTRUCTIONS & README
+
+#######################################################################
+Install Docker
+
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update
+sudo groupadd docker
+sudo apt install docker-ce -y
+sudo usermod -aG docker $USER
+```
+
+
  docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" --build-arg gituser="git username" --build-arg gitpwd="git token" -t collector:test1 .
  
  docker run --name collector1 --net=host -v /opt/collector:/opt/collector -d collector:test1
