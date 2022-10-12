@@ -102,3 +102,12 @@ sudo rm crobat*.zip
 
 # Install HTTPX
 cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip httpx*.zip; sudo mv httpx /usr/local/bin/ ; sudo rm httpx*.zip
+sudo chmod +x /usr/local/bin/httpx
+
+# Install Subfinder
+cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip subfinder*.zip; sudo mv subfinder /usr/local/bin/; sudo rm subfinder*.zip
+sudo chmod +x /usr/local/bin/subfinder
+
+# Install FeroxBuster
+cd /tmp; curl -k -s https://api.github.com/repos/epi052/feroxbuster/releases/latest | jq -r ".assets[] | select(.name | contains(\"x86_64-linux-feroxbuster.zip\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip *feroxbuster*.zip; sudo mv feroxbuster /usr/local/bin/ ; sudo rm *feroxbuster*.zip
+sudo chmod +x /usr/local/bin/feroxbuster
