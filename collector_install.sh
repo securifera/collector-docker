@@ -93,13 +93,6 @@ wget --no-check-certificate -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https:/
 tar -C /tmp -xvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
 sudo cp /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 
-# Crobat
-curl -s https://api.github.com/repos/reconsec/SonarSearch/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux-amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i -
-sudo unzip crobat*.zip
-sudo mv crobat /usr/local/bin
-sudo chmod +x /usr/local/bin/crobat
-sudo rm crobat*.zip
-
 # Install HTTPX
 cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip httpx*.zip; sudo mv httpx /usr/local/bin/ ; sudo rm httpx*.zip
 sudo chmod +x /usr/local/bin/httpx
