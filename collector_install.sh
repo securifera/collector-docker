@@ -69,11 +69,8 @@ sudo python3 -m pip install shodan
 
 # Install nuclei
 sudo apt install -y jq unzip
-cd /opt
-curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i -
-sudo unzip nuclei*.zip
-sudo mv nuclei /usr/local/bin
-sudo rm nuclei*.zip
+cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip nuclei*.zip; sudo mv nuclei /usr/local/bin/ ; sudo rm nuclei*.zip
+sudo chmod +x /usr/local/bin/nuclei
 
 # Install nuclei templates
 cd /opt
