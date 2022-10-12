@@ -58,7 +58,7 @@ sudo apt install -y libssl-dev libpcap-dev masscan autoconf
 # install nmap
 cd /opt
 sudo apt install -y build-essential
-sudo git clone https://reconsec:$gitpwd@github.com/reconsec/nmap.git
+sudo git clone -c http.sslVerify=false https://reconsec:$gitpwd@github.com/reconsec/nmap.git
 cd nmap && sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
 
 # python modules
@@ -74,7 +74,7 @@ sudo chmod +x /usr/local/bin/nuclei
 
 # Install nuclei templates
 cd /opt
-sudo git clone https://reconsec:$gitpwd@github.com/reconsec/nuclei-templates.git
+sudo git clone -c http.sslVerify=false https://reconsec:$gitpwd@github.com/reconsec/nuclei-templates.git
     
 # Screenshot dependencies
 sudo apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
