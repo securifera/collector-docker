@@ -81,7 +81,7 @@ sudo apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
 
 # Pyshot
 cd /opt
-sudo git clone https://github.com/securifera/pyshot.git
+sudo git clone -c http.sslVerify=false https://github.com/securifera/pyshot.git
 cd pyshot && sudo python3 setup.py install
 
 # PhantomJs
