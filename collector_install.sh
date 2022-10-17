@@ -19,7 +19,7 @@ done
 
 if [ -z "$gitpwd" ]
 then
-      echo "[-] Usage: collector_install.sh -p recon_github_token"
+      echo "[-] Usage: collector_install.sh -p github_credentials"
       exit 1
 fi
 
