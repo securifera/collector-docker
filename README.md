@@ -32,7 +32,6 @@ printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" |  
 ```
  docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" --build-arg gituser="git username" --build-arg gitpwd="git token" -t collector:test1 .
  
- docker run --name collector1 --net=host -v /opt/collector:/opt/collector -d collector:test1
 ```
  
  
