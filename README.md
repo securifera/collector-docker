@@ -27,6 +27,11 @@ printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" |  
 
 # If behind break and inspect add the following to all apt commands
 -o "Acquire::https::Verify-Peer=false"
+
+openssl s_client -showcerts -connect google.com:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ca.crt
+sudo cp ca.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+service docker restart
 ```
 
 ```
