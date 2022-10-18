@@ -15,6 +15,18 @@ sudo apt update
 sudo groupadd docker
 sudo apt install docker-ce -y
 sudo usermod -aG docker $USER
+
+# Ubuntu 22.04
+curl -k -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Kali
+curl -k -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-ce-archive-keyring.gpg
+printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" |  sudo tee /etc/apt/sources.list.d/docker-ce.list
+
+
+# If behind break and inspect add the following to all apt commands
+-o "Acquire::https::Verify-Peer=false"
 ```
 
 ```
