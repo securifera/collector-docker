@@ -57,3 +57,10 @@ Create "/opt/collector/luigi.cfg" on host volume:
 
     [worker]
     no_install_shutdown_handler=True
+    
+Open a shell for debugging
+
+```
+docker exec -u 0 -it collector1  /bin/bash
+```
+
