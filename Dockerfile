@@ -19,6 +19,8 @@ WORKDIR /root
 ARG gitpwd
 ARG gituser
 
+ARG cafile
+ADD $cafile /usr/local/share/ca-certificates/
 
 RUN apt update
 RUN apt install -y ca-certificates
