@@ -28,15 +28,18 @@ fi
 sudo apt update
 sudo apt install -y ca-certificates
 sudo apt install -y sudo wget curl net-tools git screen
+
+openssl s_client -showcerts -connect google.com:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ca.crt
+cp ca.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 # install python pip
 sudo apt install -y python3-pip
 
 # install luigi/waluigi
-sudo python3 -m pip install luigi
-sudo python3 -m pip install pycryptodomex
-sudo python3 -m pip install --upgrade requests
+sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org luigi
+sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pycryptodomex
+sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade requests
 
 cd /opt
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/waluigi.git
