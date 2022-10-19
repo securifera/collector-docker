@@ -25,6 +25,9 @@ ADD collector_install.sh /tmp/collector_install.sh
 RUN chmod +x /tmp/collector_install.sh
 RUN /tmp/collector_install.sh -p $gituser:$gitpwd
 
+# Add the luigi file
+ADD luigi.cfg /opt/collector/luigi.cfg
+
 # Install SSH
 RUN apt install -y openssh-server
 RUN mkdir -p /var/run/sshd \
