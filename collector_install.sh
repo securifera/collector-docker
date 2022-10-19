@@ -35,11 +35,13 @@ sudo update-ca-certificates
 
 # install python pip
 sudo apt install -y python3-pip
+pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org" --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
 
 # install luigi/waluigi
-sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org luigi
-sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pycryptodomex
-sudo python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade requests
+sudo python3 -m pip install luigi
+sudo python3 -m pip install pycryptodomex
+sudo python3 -m pip install --upgrade requests
+sudo python3 -m pip install netifaces
 
 cd /opt
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/waluigi.git

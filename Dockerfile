@@ -19,16 +19,11 @@ WORKDIR /root
 ARG gitpwd
 ARG gituser
 
-ARG cafile
-ADD $cafile /usr/local/share/ca-certificates/
-
 RUN apt update
-RUN apt install -y ca-certificates
-RUN apt install -y sudo wget curl net-tools git screen
-RUN update-ca-certificates
-
+RUN apt install -y sudo
 ADD collector_install.sh /tmp/collector_install.sh
-RUN sudo /tmp/collector_install.sh -p $gituser:$gitpwd
+RUN chmod +x /tmp/collector_install.sh
+RUN /tmp/collector_install.sh -p $gituser:$gitpwd
 
 # Install SSH
 RUN apt install -y openssh-server
