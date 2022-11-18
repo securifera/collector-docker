@@ -19,14 +19,15 @@ WORKDIR /root
 ARG gitpwd
 ARG gituser
 
+ADD luigi.cfg /tmp/luigi.cfg
+RUN mkdir -p /opt/collector
+RUN cp /tmp/luigi.cfg /opt/collector/luigi.cfg
+
 RUN apt update
 RUN apt install -y sudo
 ADD collector_install.sh /tmp/collector_install.sh
 RUN chmod +x /tmp/collector_install.sh
 RUN /tmp/collector_install.sh -p $gituser:$gitpwd
-
-# Add the luigi file
-ADD luigi.cfg /opt/collector/luigi.cfg
 
 # Install SSH
 RUN apt install -y openssh-server
@@ -44,9 +45,12 @@ ADD scan-poller /etc/init.d/scan-poller
 RUN chmod 755 /etc/init.d/scan-poller
 
 RUN echo "#!/bin/bash" > /root/start.sh
+RUN echo "cp /tmp/luigi.cfg /opt/collector/luigi.cfg" >> /root/start.sh
 RUN echo "service scan-poller start" >> /root/start.sh
 RUN echo "/usr/sbin/sshd -D -o ListenAddress=0.0.0.0" >> /root/start.sh
 RUN chmod +x /root/start.sh
+
+RUN cp /tmp/luigi.cfg /opt/collector/luigi.cfg
 
 # Setup default command and/or parameters.
 EXPOSE 22
