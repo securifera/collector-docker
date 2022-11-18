@@ -19,9 +19,8 @@ WORKDIR /root
 ARG gitpwd
 ARG gituser
 
-ADD luigi.cfg /tmp/luigi.cfg
 RUN mkdir -p /opt/collector
-RUN cp /tmp/luigi.cfg /opt/collector/luigi.cfg
+ADD luigi.cfg /opt/collector/luigi.cfg
 
 RUN apt update
 RUN apt install -y sudo
