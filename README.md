@@ -46,7 +46,7 @@ Start docker instance with port forward from docker to host on port 2222
 
 
 ```
-docker run --name collector1 -p 2222:22 -v /opt/collector:/opt/collector -d collector:test1
+docker run --name collector1 -p 2222:22 -d collector:test1
 ```
 
 #################################################
