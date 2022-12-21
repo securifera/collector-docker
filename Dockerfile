@@ -41,12 +41,9 @@ ADD scan-poller /etc/init.d/scan-poller
 RUN chmod 755 /etc/init.d/scan-poller
 
 RUN echo "#!/bin/bash" > /root/start.sh
-RUN echo "cp /tmp/luigi.cfg /opt/collector/luigi.cfg" >> /root/start.sh
 RUN echo "service scan-poller start" >> /root/start.sh
 RUN echo "/usr/sbin/sshd -D -o ListenAddress=0.0.0.0" >> /root/start.sh
 RUN chmod +x /root/start.sh
-
-RUN cp /tmp/luigi.cfg /opt/collector/luigi.cfg
 
 # Setup default command and/or parameters.
 EXPOSE 22
