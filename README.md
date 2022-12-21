@@ -32,6 +32,11 @@ openssl s_client -showcerts -connect google.com:443 < /dev/null | sed -ne '/-BEG
 sudo cp ca.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 service docker restart
+
+# Generate ssh key for collector docker instance
+ssh-keygen -f id_rsa
+
+
 ```
 
 ```
