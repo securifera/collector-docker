@@ -81,7 +81,9 @@ screen -S ssh_session
 ssh -t -t -N -i pivot.pem -R *:2222:localhost:2222 -o ServerAliveCountMax=3 <username>@<IP Address>
 ```
 
-#################################################
+### Troubleshooting
+
+Ensure firewall port exceptions exist for any ports opened
 
 If there is an error about signal on main thread with luigi
 
