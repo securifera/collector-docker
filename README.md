@@ -36,6 +36,12 @@ service docker restart
 # Generate ssh key for collector docker instance
 ssh-keygen -f id_rsa
 
+# Create collector in Reverge
+Create Manual Collector in Reverge.
+Enter IP address of extender pivot
+Enter custom port for port forward 
+Username of docker instance (root)
+Add SSH private key generated above
 
 ```
 
