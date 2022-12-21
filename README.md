@@ -70,6 +70,11 @@ edit /etc/ssh/sshd_config on pivot to all for all interfaces to forward traffic
 GatewayPorts clientspecified
 ```
 
+restart ssh service
+
+```
+service ssh restart
+```
 
 ```
 screen -S ssh_session
