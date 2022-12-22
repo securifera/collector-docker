@@ -1,9 +1,13 @@
 
 #!/bin/bash
 
-while getopts ":p:" opt; do
+arch="linux_amd64"
+
+while getopts ":p:a:" opt; do
   case $opt in
     p) gitpwd="$OPTARG"
+    ;;
+    a) arch="$OPTARG"
     ;;
     \?) echo "Invalid option -$OPTARG" >&2
     exit 1
@@ -73,7 +77,7 @@ sudo python3 -m pip install shodan
 
 # Install nuclei
 sudo apt install -y jq unzip
-cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip nuclei*.zip; sudo mv nuclei /usr/local/bin/ ; sudo rm nuclei*.zip
+cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"$arch\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip nuclei*.zip; sudo mv nuclei /usr/local/bin/ ; sudo rm nuclei*.zip
 sudo chmod +x /usr/local/bin/nuclei
 
 # Install nuclei templates
@@ -89,19 +93,27 @@ sudo git clone -c http.sslVerify=false https://github.com/securifera/pyshot.git
 cd pyshot && sudo python3 setup.py install
 
 # PhantomJs
-cd /opt
-wget --no-check-certificate -O /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
-tar -C /tmp -xvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
-sudo cp /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
+if [[ "$arch" == "linux_amd64" ]]; then
+  cd /opt
+  wget --no-check-certificate -O /tmp/phantomjs-2.1.1.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+  tar -C /tmp -xvf /tmp/phantomjs-2.1.1.tar.bz2
+  sudo cp /tmp/phantomjs-2.1.1/bin/phantomjs /usr/bin
+fi
 
 # Install HTTPX
-cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip httpx*.zip; sudo mv httpx /usr/local/bin/ ; sudo rm httpx*.zip
+cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | jq -r ".assets[] | select(.name | contains(\"$arch\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip httpx*.zip; sudo mv httpx /usr/local/bin/ ; sudo rm httpx*.zip
 sudo chmod +x /usr/local/bin/httpx
 
 # Install Subfinder
-cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | jq -r ".assets[] | select(.name | contains(\"linux_amd64\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip subfinder*.zip; sudo mv subfinder /usr/local/bin/; sudo rm subfinder*.zip
+cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | jq -r ".assets[] | select(.name | contains(\"$arch\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip subfinder*.zip; sudo mv subfinder /usr/local/bin/; sudo rm subfinder*.zip
 sudo chmod +x /usr/local/bin/subfinder
 
+if [[ "$arch" == "linux_arm64" ]]; then
+    $ferox_version = "aarch64"
+else
+    $ferox_version = "x86_64-linux"
+fi
+
 # Install FeroxBuster
-cd /tmp; curl -k -s https://api.github.com/repos/epi052/feroxbuster/releases/latest | jq -r ".assets[] | select(.name | contains(\"x86_64-linux-feroxbuster.zip\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip *feroxbuster*.zip; sudo mv feroxbuster /usr/local/bin/ ; sudo rm *feroxbuster*.zip
+cd /tmp; curl -k -s https://api.github.com/repos/epi052/feroxbuster/releases/latest | jq -r ".assets[] | select(.name | contains(\"$ferox_version-feroxbuster.zip\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip *feroxbuster*.zip; sudo mv feroxbuster /usr/local/bin/ ; sudo rm *feroxbuster*.zip
 sudo chmod +x /usr/local/bin/feroxbuster
