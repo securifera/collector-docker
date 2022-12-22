@@ -93,7 +93,8 @@ sudo git clone -c http.sslVerify=false https://github.com/securifera/pyshot.git
 cd pyshot && sudo python3 setup.py install
 
 # PhantomJs
-if [[ "$arch" == "linux_amd64" ]]; then
+if [ "$arch" = "linux_amd64" ]
+then
   cd /opt
   wget --no-check-certificate -O /tmp/phantomjs-2.1.1.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
   tar -C /tmp -xvf /tmp/phantomjs-2.1.1.tar.bz2
@@ -110,7 +111,8 @@ sudo chmod +x /usr/local/bin/httpx
 cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | jq -r ".assets[] | select(.name | contains(\"$arch\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip subfinder*.zip; sudo mv subfinder /usr/local/bin/; sudo rm subfinder*.zip
 sudo chmod +x /usr/local/bin/subfinder
 
-if [[ "$arch" == "linux_arm64" ]]; then
+if [ "$arch" = "linux_arm64" ]
+then
     ferox_version="aarch64"
 else
     ferox_version="x86_64-linux"
