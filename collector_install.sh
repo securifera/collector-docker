@@ -23,7 +23,7 @@ done
 
 if [ -z "$gitpwd" ]
 then
-      echo "[-] Usage: collector_install.sh -p github_credentials"
+      echo "[-] Usage: collector_install.sh -p github_credentials (-a 'CPU Arch')"
       exit 1
 fi
 
