@@ -109,9 +109,9 @@ cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/subfinder/rele
 sudo chmod +x /usr/local/bin/subfinder
 
 if [[ "$arch" == "linux_arm64" ]]; then
-    $ferox_version = "aarch64"
+    ferox_version="aarch64"
 else
-    $ferox_version = "x86_64-linux"
+    ferox_version="x86_64-linux"
 fi
 
 # Install FeroxBuster
