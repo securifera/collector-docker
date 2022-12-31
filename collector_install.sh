@@ -98,7 +98,7 @@ then
   cd /opt
   wget --no-check-certificate -O /tmp/phantomjs-2.1.1.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
   tar -C /tmp -xvf /tmp/phantomjs-2.1.1.tar.bz2
-  sudo cp /tmp/phantomjs-2.1.1/bin/phantomjs /usr/bin
+  sudo cp /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 else
   echo "No phantom JS release for arch $arch. Consider building from source."
 fi
