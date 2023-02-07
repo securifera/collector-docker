@@ -29,6 +29,7 @@ fi
 
 
 # install initial tools
+sudo export DEBIAN_FRONTEND=noninteractive
 sudo apt update
 sudo apt install -y ca-certificates
 sudo apt install -y sudo wget curl net-tools git screen
