@@ -29,17 +29,16 @@ fi
 
 
 # install initial tools
-sudo export DEBIAN_FRONTEND=noninteractive
 sudo apt update
-sudo apt install -y ca-certificates
-sudo apt install -y sudo wget curl net-tools git screen
+sudo DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates
+sudo DEBIAN_FRONTEND=noninteractive apt install -y sudo wget curl net-tools git screen
 
 openssl s_client -showcerts -connect google.com:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ca.crt
 cp ca.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 # install python pip
-sudo apt install -y python3-pip
+sudo DEBIAN_FRONTEND=noninteractive apt install -y python3-pip
 pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org" --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
 
 # install luigi/waluigi
@@ -62,11 +61,11 @@ cd waluigi && sudo python3 setup.py install
 ###############
 
 # dependencies
-sudo apt install -y libssl-dev libpcap-dev masscan autoconf
+sudo DEBIAN_FRONTEND=noninteractive apt install -y libssl-dev libpcap-dev masscan autoconf
 
 # install nmap
 cd /opt
-sudo apt install -y build-essential
+sudo DEBIAN_FRONTEND=noninteractive apt install -y build-essential
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nmap.git
 cd nmap && sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
 
@@ -77,7 +76,7 @@ sudo python3 -m pip install tqdm
 sudo python3 -m pip install shodan
 
 # Install nuclei
-sudo apt install -y jq unzip
+sudo DEBIAN_FRONTEND=noninteractive apt install -y jq unzip
 cd /tmp; curl -k -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | jq -r ".assets[] | select(.name | contains(\"$arch\")) | .browser_download_url" | sudo wget --no-check-certificate -i - ; sudo unzip nuclei*.zip; sudo mv nuclei /usr/local/bin/ ; sudo rm nuclei*.zip
 sudo chmod +x /usr/local/bin/nuclei
 
@@ -86,7 +85,7 @@ cd /opt
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nuclei-templates.git
     
 # Screenshot dependencies
-sudo apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
+sudo DEBIAN_FRONTEND=noninteractive apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
 
 # Pyshot
 cd /opt
