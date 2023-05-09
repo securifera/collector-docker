@@ -27,6 +27,62 @@ then
       exit 1
 fi
 
+#!/bin/bash
+
+# Check if python3 command is available
+if command -v python3 &>/dev/null; then
+    PYTHON_CMD="python3"
+    PYTHON3="yes"
+elif command -v python &>/dev/null; then
+    # Check if the 'python' command points to Python 3.x
+    if [[ $(python -c "import sys; print(sys.version_info.major)") == "3" ]]; then
+        PYTHON_CMD="python"
+        PYTHON3="yes"
+    else
+        echo "Python 3.x not found. Installing Python 3.10..."
+        NEED_INSTALL="yes"
+    fi
+else
+    echo "Python 3.x not found. Installing Python 3.10..."
+    NEED_INSTALL="yes"
+fi
+
+if [ "$PYTHON3" == "yes" ]; then
+    PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(sys.version_info.minor)")
+    echo "Current Python version: 3.$PYTHON_VERSION"
+
+    if [[ $(echo "$PYTHON_VERSION 10" | awk '{print ($1 < $2)}') -eq 1 ]]; then
+        echo "Python version is less than 3.10. Installing Python 3.10..."
+        NEED_INSTALL="yes"
+    fi
+fi
+
+if [ "$NEED_INSTALL" == "yes" ]; then
+    # Update package list and install prerequisites
+    sudo apt-get update
+    sudo apt-get install -y software-properties-common
+
+    # Add the deadsnakes PPA
+    sudo add-apt-repository -y ppa:deadsnakes/ppa
+
+    # Update package list again
+    sudo apt-get update
+
+    # Install Python 3.10
+    sudo apt-get install -y python3.10 python3.10.dev python3.10-distutils python3.10-venv
+
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
+
+    python3.10 -m venv ~/venv
+    source ~/venv/bin/activate
+
+    echo "Python 3.10 installed successfully."
+else
+    sudo apt-get install -y python3.10-venv
+    python3 -m venv ~/venv
+    source ~/venv/bin/activate
+fi 
+
 
 # install initial tools
 sudo apt update
@@ -42,19 +98,19 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y python3-pip
 pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org" --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
 
 # install luigi/waluigi
-sudo python3 -m pip install luigi
-sudo python3 -m pip install pycryptodomex
-sudo python3 -m pip install --upgrade requests
-sudo python3 -m pip install netifaces
+python3 -m pip install luigi
+python3 -m pip install pycryptodomex
+python3 -m pip install --upgrade requests
+python3 -m pip install netifaces
 
 # Create luigi config file
 sudo mkdir /opt/collector
 echo "[worker]" | sudo tee /opt/collector/luigi.cfg
 echo "no_install_shutdown_handler=True" | sudo tee -a /opt/collector/luigi.cfg
 
-cd /opt
+cd /tmp
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/waluigi.git
-cd waluigi && sudo python3 setup.py install
+cd waluigi && python3 setup.py install
 
 ###############
 # scanner stuff
@@ -70,10 +126,11 @@ sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nmap.
 cd nmap && sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
 
 # python modules
-sudo python3 -m pip install netaddr
-sudo python3 -m pip install python-libnmap
-sudo python3 -m pip install tqdm
-sudo python3 -m pip install shodan
+python3 -m pip install netaddr
+python3 -m pip install python-libnmap
+python3 -m pip install tqdm
+python3 -m pip install shodan
+python3 -m pip install selenium
 
 # Install nuclei
 sudo DEBIAN_FRONTEND=noninteractive apt install -y jq unzip
@@ -88,9 +145,9 @@ sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nucle
 sudo DEBIAN_FRONTEND=noninteractive apt install -y fonts-liberation libgbm1 libappindicator3-1 openssl
 
 # Pyshot
-cd /opt
+cd /tmp
 sudo git clone -c http.sslVerify=false https://github.com/securifera/pyshot.git
-cd pyshot && sudo python3 setup.py install
+cd pyshot && python3 setup.py install
 
 # PhantomJs
 if [ "$arch" = "linux_amd64" ]
@@ -123,4 +180,4 @@ cd /tmp; curl -k -s https://api.github.com/repos/epi052/feroxbuster/releases/lat
 sudo chmod +x /usr/local/bin/feroxbuster
 
 # Badsecrets
-sudo python3 -m pip install badsecrets
+python3 -m pip install badsecrets
