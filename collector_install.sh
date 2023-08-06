@@ -108,7 +108,7 @@ sudo mkdir /opt/collector
 echo "[worker]" | sudo tee /opt/collector/luigi.cfg
 echo "no_install_shutdown_handler=True" | sudo tee -a /opt/collector/luigi.cfg
 
-cd /tmp
+cd /opt
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/waluigi.git
 cd waluigi && python3 setup.py install
 
