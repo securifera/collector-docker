@@ -117,7 +117,7 @@ cd waluigi && python3 setup.py install
 ###############
 
 # dependencies
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y libssl-dev libpcap-dev masscan autoconf
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y libssl-dev libpcap-dev masscan autoconf libasound2
 
 # install nmap
 cd /opt
