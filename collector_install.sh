@@ -117,7 +117,7 @@ cd waluigi && python3 setup.py install
 ###############
 
 # dependencies
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y libssl-dev libpcap-dev masscan autoconf libasound2
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y libssl-dev libpcap-dev masscan autoconf
 
 # install nmap
 cd /opt
@@ -142,7 +142,7 @@ cd /opt
 sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nuclei-templates.git
     
 # Screenshot dependencies
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y fonts-liberation libgbm1 libappindicator3-1 openssl
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y fonts-liberation libgbm1 libappindicator3-1 openssl libasound2
 
 # Pyshot
 cd /tmp
