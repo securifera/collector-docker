@@ -1,7 +1,16 @@
 
 #!/bin/bash
-
 arch="linux_amd64"
+install_packages() {
+    local packages=("$@")
+
+    # Wait for the dpkg lock to be released.
+    while ps -opid= -C apt-get > /dev/null; do sleep 10; done;    
+    sudo apt-get update
+    while ps -opid= -C apt-get > /dev/null; do sleep 10; done;
+    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y ${packages[@]}
+}
+
 
 while getopts ":p:a:" opt; do
   case $opt in
@@ -26,8 +35,6 @@ then
       echo "[-] Usage: collector_install.sh -p github_credentials (-a 'CPU Arch')"
       exit 1
 fi
-
-#!/bin/bash
 
 # Check if python3 command is available
 if command -v python3 &>/dev/null; then
@@ -59,17 +66,13 @@ fi
 
 if [ "$NEED_INSTALL" == "yes" ]; then
     # Update package list and install prerequisites
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common
+    install_packages software-properties-common
 
     # Add the deadsnakes PPA
     sudo add-apt-repository -y ppa:deadsnakes/ppa
 
-    # Update package list again
-    sudo apt-get update
-
     # Install Python 3.10
-    sudo apt-get install -y python3.10 python3.10.dev python3.10-distutils python3.10-venv
+    install_packages python3.10 python3.10.dev python3.10-distutils python3.10-venv
 
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
@@ -78,23 +81,12 @@ if [ "$NEED_INSTALL" == "yes" ]; then
 
     echo "Python 3.10 installed successfully."
 else
-    sudo apt-get install -y python3.10-venv
+    install_packages python3.10-venv
     python3 -m venv ~/venv
     source ~/venv/bin/activate
 fi 
 
-install_packages() {
-    local packages=("$@")
-
-    # Wait for the dpkg lock to be released.
-    while [ -f /var/lib/dpkg/lock-frontend ]; do
-        sleep 10
-    done
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y ${packages[@]}
-}
-
 # install initial tools
-sudo apt update
 install_packages ca-certificates wget curl net-tools git screen
 #sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y ca-certificates
 #sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y sudo wget curl net-tools git screen
