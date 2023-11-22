@@ -2,13 +2,11 @@
 #!/bin/bash
 arch="linux_amd64"
 install_packages() {
-    local packages=("$@")
-
     # Wait for the dpkg lock to be released.
     while ps -opid= -C apt-get > /dev/null; do sleep 10; done;    
     sudo apt-get update
     while ps -opid= -C apt-get > /dev/null; do sleep 10; done;
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y ${packages[@]}
+    sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y $*
 }
 
 
