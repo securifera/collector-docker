@@ -52,7 +52,7 @@ else
     NEED_INSTALL="yes"
 fi
 
-if [ "$PYTHON3" == "yes" ]; then
+if [ "$PYTHON3" = "yes" ]; then
     PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(sys.version_info.minor)")
     echo "Current Python version: 3.$PYTHON_VERSION"
 
@@ -62,7 +62,7 @@ if [ "$PYTHON3" == "yes" ]; then
     fi
 fi
 
-if [ "$NEED_INSTALL" == "yes" ]; then
+if [ "$NEED_INSTALL" = "yes" ]; then
     # Update package list and install prerequisites
     install_packages software-properties-common
 
