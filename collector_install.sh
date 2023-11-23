@@ -40,7 +40,7 @@ if command -v python3 &>/dev/null; then
     PYTHON3="yes"
 elif command -v python &>/dev/null; then
     # Check if the 'python' command points to Python 3.x
-    if [[ $(python -c "import sys; print(sys.version_info.major)") == "3" ]]; then
+    if [ `python -c "import sys; print(sys.version_info.major)"` = "3" ]; then
         PYTHON_CMD="python"
         PYTHON3="yes"
     else
@@ -56,7 +56,7 @@ if [ "$PYTHON3" = "yes" ]; then
     PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(sys.version_info.minor)")
     echo "Current Python version: 3.$PYTHON_VERSION"
 
-    if [[ $(echo "$PYTHON_VERSION 10" | awk '{print ($1 < $2)}') -eq 1 ]]; then
+    if [ `echo "$PYTHON_VERSION 10" | awk '{print ($1 < $2)}'` -eq 1 ]; then
         echo "Python version is less than 3.10. Installing Python 3.10..."
         NEED_INSTALL="yes"
     fi
