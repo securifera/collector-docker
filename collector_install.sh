@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 arch="linux_amd64"
 install_packages() {
     # Wait for the dpkg lock to be released.
