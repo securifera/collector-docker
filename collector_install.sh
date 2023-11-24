@@ -75,13 +75,13 @@ if [ "$NEED_INSTALL" = "yes" ]; then
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
     python3.10 -m venv ~/venv
-    source ~/venv/bin/activate
+    . ~/venv/bin/activate
 
     echo "Python 3.10 installed successfully."
 else
     install_packages python3.10-venv
     python3 -m venv ~/venv
-    source ~/venv/bin/activate
+    . ~/venv/bin/activate
 fi 
 
 # install initial tools
