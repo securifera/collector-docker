@@ -10,10 +10,8 @@ install_packages() {
 }
 
 
-while getopts ":p:a:" opt; do
+while getopts ":a:" opt; do
   case $opt in
-    p) gitpwd="$OPTARG"
-    ;;
     a) arch="$OPTARG"
     ;;
     \?) echo "Invalid option -$OPTARG" >&2
@@ -27,12 +25,6 @@ while getopts ":p:a:" opt; do
     ;;
   esac
 done
-
-if [ -z "$gitpwd" ]
-then
-      echo "[-] Usage: collector_install.sh -p github_credentials (-a 'CPU Arch')"
-      exit 1
-fi
 
 # Check if python3 command is available
 if command -v python3 &>/dev/null; then
@@ -107,7 +99,7 @@ echo "[worker]" | sudo tee /opt/collector/luigi.cfg
 echo "no_install_shutdown_handler=True" | sudo tee -a /opt/collector/luigi.cfg
 
 cd /opt
-sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/waluigi.git
+sudo git clone -c http.sslVerify=false https://github.com/reconsec/waluigi.git
 cd waluigi && python3 setup.py install
 
 ###############
@@ -119,7 +111,7 @@ install_packages libssl-dev libpcap-dev masscan autoconf build-essential
 
 # install nmap
 cd /opt
-sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nmap.git
+sudo git clone -c http.sslVerify=false https://github.com/reconsec/nmap.git
 cd nmap && sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
 
 # python modules
@@ -135,7 +127,7 @@ sudo chmod +x /usr/local/bin/nuclei
 
 # Install nuclei templates
 cd /opt
-sudo git clone -c http.sslVerify=false https://$gitpwd@github.com/reconsec/nuclei-templates.git
+sudo git clone -c http.sslVerify=false https://github.com/reconsec/nuclei-templates.git
     
 # Screenshot dependencies
 install_packages fonts-liberation libgbm1 libappindicator3-1 openssl libasound2
