@@ -87,7 +87,7 @@ sudo update-ca-certificates
 install_packages python3-pip
 pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org" --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
 
-# install luigi/waluigi
+# install luigi
 python3 -m pip install luigi
 python3 -m pip install pycryptodomex
 python3 -m pip install --upgrade requests
@@ -99,8 +99,8 @@ echo "[worker]" | sudo tee /opt/collector/luigi.cfg
 echo "no_install_shutdown_handler=True" | sudo tee -a /opt/collector/luigi.cfg
 
 cd /opt
-sudo git clone -c http.sslVerify=false https://github.com/reconsec/waluigi.git
-cd waluigi && python3 setup.py install
+sudo git clone -c http.sslVerify=false https://github.com/securifera/reverge_collector.git
+cd reverge_collector && python3 setup.py install
 
 ###############
 # scanner stuff
@@ -111,8 +111,10 @@ install_packages libssl-dev libpcap-dev masscan autoconf build-essential
 
 # install nmap
 cd /opt
-sudo git clone -c http.sslVerify=false https://github.com/reconsec/nmap.git
-cd nmap && sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
+sudo git clone -c http.sslVerify=false https://github.com/securifera/nmap.git
+cd nmap 
+git checkout ssl_updates 
+sudo ./configure --without-ncat --without-zenmap --without-nping && sudo make && sudo make install
 
 # python modules
 python3 -m pip install netaddr
@@ -127,7 +129,7 @@ sudo chmod +x /usr/local/bin/nuclei
 
 # Install nuclei templates
 cd /opt
-sudo git clone -c http.sslVerify=false https://github.com/reconsec/nuclei-templates.git
+sudo git clone -c http.sslVerify=false https://github.com/securifera/nuclei-templates.git
     
 # Screenshot dependencies
 install_packages fonts-liberation libgbm1 libappindicator3-1 openssl libasound2
