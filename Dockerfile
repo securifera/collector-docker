@@ -18,12 +18,10 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /tmp
 
 RUN apt update
-RUN apt install -y sudo
-ADD setup.py /tmp/setup.py
-ADD waluigi /tmp/waluigi
-ADD install.sh /tmp/collector_install.sh
-RUN chmod +x /tmp/collector_install.sh
-RUN /tmp/collector_install.sh
+RUN apt install -y sudo git supervisor
+RUN git clone https://github.com/securifera/reverge_collector.git /tmp/
+RUN chmod +x /tmp/install.sh
+RUN /tmp/install.sh
 
 # Install SSH
 RUN apt install -y openssh-server
@@ -37,13 +35,7 @@ ADD $sshkey /root/.ssh/authorized_keys
 # Setup scan service
 ARG apikey
 RUN echo $apikey > /root/.collector_api_key
-ADD scan-poller.service /etc/systemd/system/scan-poller.service
 
-RUN echo "#!/bin/bash" > /root/start.sh
-RUN echo "service scan-poller start" >> /root/start.sh
-RUN echo "/usr/sbin/sshd -D -o ListenAddress=0.0.0.0" >> /root/start.sh
-RUN chmod +x /root/start.sh
-
-# Setup default command and/or parameters.
-EXPOSE 22
-CMD ["/root/start.sh"]
+COPY ./supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
+COPY /tmp/supervisor_collector.conf /etc/supervisor/conf.d/collector.conf
+CMD  /usr/bin/supervisord
