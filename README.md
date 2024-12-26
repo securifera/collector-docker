@@ -46,7 +46,7 @@ Add SSH private key generated above
 ```
 
 ```
- docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" -t collector:test1 .
+ docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" -t collector_img .
  
 ```
  
@@ -57,7 +57,7 @@ Start docker instance with port forward from docker to host on port 2222
 
 
 ```
-docker run --name collector1 -p 2222:22 -d collector:test1
+docker run --name collector -p 2222:22 -d collector_img
 ```
 
 #################################################
