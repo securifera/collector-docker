@@ -46,7 +46,7 @@ Add SSH private key generated above
 ```
 
 ```
- docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" --build-arg gituser="git username" --build-arg gitpwd="git token" -t collector:test1 .
+ docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" -t collector:test1 .
  
 ```
  
