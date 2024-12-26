@@ -1,9 +1,9 @@
 # BUILD INSTRUCTIONS & README
-#   1) docker build --build-arg sshkey=<local public key file> --build-arg apikey=<RECON API KEY> --build-arg gituser=<git username> --build-arg gitpwd=<git token> -t collector:test1 .
+#   1) docker build --build-arg sshkey=<local public key file> --build-arg apikey=<RECON API KEY> -t collector:test1 .
 #   2) docker run -d collector_test
 
 # Start from base ubuntu 20.04 image
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV TZ=America/New_York
 
@@ -15,15 +15,15 @@ LABEL desription="Collector Docker Image"
 # Setup initial environment
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-WORKDIR /root
-ARG gitpwd
-ARG gituser
+WORKDIR /tmp
 
 RUN apt update
 RUN apt install -y sudo
-ADD collector_install.sh /tmp/collector_install.sh
+ADD setup.py /tmp/setup.py
+ADD waluigi /tmp/waluigi
+ADD install.sh /tmp/collector_install.sh
 RUN chmod +x /tmp/collector_install.sh
-RUN /tmp/collector_install.sh -p $gituser:$gitpwd
+RUN /tmp/collector_install.sh
 
 # Install SSH
 RUN apt install -y openssh-server
@@ -37,8 +37,7 @@ ADD $sshkey /root/.ssh/authorized_keys
 # Setup scan service
 ARG apikey
 RUN echo $apikey > /root/.collector_api_key
-ADD scan-poller /etc/init.d/scan-poller
-RUN chmod 755 /etc/init.d/scan-poller
+ADD scan-poller.service /etc/systemd/system/scan-poller.service
 
 RUN echo "#!/bin/bash" > /root/start.sh
 RUN echo "service scan-poller start" >> /root/start.sh
