@@ -36,6 +36,6 @@ ADD $sshkey /root/.ssh/authorized_keys
 ARG apikey
 RUN echo $apikey > /root/.collector_api_key
 
-COPY ./supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
+COPY /tmp/supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
 COPY /tmp/supervisor_collector.conf /etc/supervisor/conf.d/collector.conf
 CMD  /usr/bin/supervisord
