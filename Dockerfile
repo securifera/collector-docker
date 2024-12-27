@@ -2,7 +2,6 @@
 #   1) docker build --build-arg sshkey=<local public key file> --build-arg apikey=<RECON API KEY> -t collector_img .
 #   2) docker run --name collector -p 2222:22 -d collector_img
 
-# Start from base ubuntu 20.04 image
 FROM ubuntu:22.04
 
 ENV TZ=America/New_York
