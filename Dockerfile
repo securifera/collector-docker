@@ -30,6 +30,7 @@ RUN mkdir -p /var/run/sshd \
   && touch /root/.ssh/authorized_keys
 COPY docker_ssh_key.pub /root/.ssh/authorized_keys
 RUN chmod 600 /root/.ssh/authorized_keys
+RUN echo "PubkeyAcceptedKeyTypes=+ssh-rsa" | sudo tee -a /etc/ssh/sshd_config
 
 # Setup scan service
 ARG apikey
