@@ -1,5 +1,5 @@
 # BUILD INSTRUCTIONS & README
-#   1) docker build --build-arg sshkey=<local public key file> --build-arg apikey=<RECON API KEY> -t collector_img .
+#   1) docker build --build-arg apikey=<RECON API KEY> -t collector_img .
 #   2) docker run --name collector -p 2222:22 -d collector_img
 
 FROM ubuntu:22.04
@@ -28,8 +28,8 @@ RUN mkdir -p /var/run/sshd \
   && mkdir /root/.ssh \
   && chmod 700 /root/.ssh \
   && touch /root/.ssh/authorized_keys
-ARG sshkey
-ADD $sshkey /root/.ssh/authorized_keys
+COPY docker_ssh_key.pub /root/.ssh/authorized_keys
+RUN chmod 600 /root/.ssh/authorized_keys
 
 # Setup scan service
 ARG apikey
