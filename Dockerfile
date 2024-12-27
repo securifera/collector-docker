@@ -17,7 +17,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /tmp
 
 RUN apt update
-RUN apt install -y sudo git
+RUN apt install -y sudo git supervisor
 RUN git clone https://github.com/securifera/reverge_collector.git /tmp/
 RUN chmod +x /tmp/install.sh
 RUN /tmp/install.sh
