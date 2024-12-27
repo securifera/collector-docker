@@ -35,6 +35,6 @@ RUN chmod 600 /root/.ssh/authorized_keys
 ARG apikey
 RUN echo $apikey > /root/.collector_api_key
 
-COPY /tmp/supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
-COPY /tmp/supervisor_collector.conf /etc/supervisor/conf.d/collector.conf
+RUN cp /tmp/supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
+RUN cp /tmp/supervisor_collector.conf /etc/supervisor/conf.d/collector.conf
 CMD  /usr/bin/supervisord
