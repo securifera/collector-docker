@@ -2,7 +2,7 @@
 #   1) docker build --build-arg apikey=<RECON API KEY> -t collector_img .
 #   2) docker run --name collector -p 2222:22 -d collector_img
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV TZ=America/New_York
 
