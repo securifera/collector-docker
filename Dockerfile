@@ -25,7 +25,7 @@ RUN /tmp/install.sh
 # Install SSH
 RUN apt install -y openssh-server
 RUN mkdir -p /var/run/sshd \
-  && mkdir /root/.ssh \
+  && mkdir -p /root/.ssh \
   && chmod 700 /root/.ssh \
   && touch /root/.ssh/authorized_keys
 COPY docker_ssh_key.pub /root/.ssh/authorized_keys
