@@ -36,6 +36,6 @@ RUN echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
 ARG apikey
 RUN echo $apikey > /root/.collector_api_key
 
-RUN cp /tmp/supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
+COPY supervisor_sshd.conf /etc/supervisor/conf.d/sshd.conf
 RUN cp /tmp/supervisor_collector.conf /etc/supervisor/conf.d/collector.conf
 CMD  /usr/bin/supervisord
