@@ -88,6 +88,7 @@ cat pivot.pem.pub >> ~/.ssh/authorized_keys
 On the internal scan box create a remote port foward to the Cloud Extender using the generated ssh key
 ```
 screen -S ssh_session
+chmod 600 ./pivot.pem
 ssh -t -t -N -i pivot.pem -R *:2222:localhost:2222 -o ServerAliveCountMax=3 <username>@<IP Address>
 ```
 
