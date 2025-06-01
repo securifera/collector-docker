@@ -64,7 +64,7 @@ docker run --name collector -p 2222:22 -d collector_img
 
 Create a port forward from Collector to Pivot
 
-edit /etc/ssh/sshd_config on pivot to all for all interfaces to forward traffic
+On the Cloud Extender edit /etc/ssh/sshd_config to listen on all interfaces to forward traffic
 
 ```
 GatewayPorts clientspecified
@@ -76,6 +76,13 @@ restart ssh service
 service ssh restart
 ```
 
+Generate a new ssh key for the internal scan box on the Cloud Extender and add it to authorized_keys
+```
+ssh-keygen -f pivot.pem
+cat pivot.pem.pub >> ~/.ssh/authorized_keys
+```
+
+On the internal scan box create a remote port foward to the Cloud Extender using the generated ssh key
 ```
 screen -S ssh_session
 ssh -t -t -N -i pivot.pem -R *:2222:localhost:2222 -o ServerAliveCountMax=3 <username>@<IP Address>
