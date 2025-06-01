@@ -34,19 +34,22 @@ sudo update-ca-certificates
 service docker restart
 
 # Generate ssh key for collector docker instance
-ssh-keygen -f id_rsa
+```
+ssh-keygen -f docker_ssh_key
+```
+
 
 # Create collector in Reverge
 Create Manual Collector in Reverge.
 Enter IP address of extender pivot
 Enter custom port for port forward 
 Username of docker instance (root)
-Add SSH private key generated above
+Copy SSH private key public key generated above to docker_ssh_key.pub
 
 ```
 
 ```
- docker build --build-arg sshkey="local public key file" --build-arg apikey="Recon API Key" -t collector_img .
+ docker build --build-arg apikey="Recon API Key" -t collector_img .
  
 ```
  
