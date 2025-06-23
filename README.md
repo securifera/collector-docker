@@ -60,7 +60,7 @@ Start docker instance with port forward from docker to host on port 2222
 
 
 ```
-docker run --name collector -p 2222:22 -d collector_img
+docker run --shm-size=1g --name collector -p 2222:22 -d collector_img
 ```
 
 #################################################
@@ -109,3 +109,13 @@ Open a shell for debugging
 docker exec -u 0 -it collector1  /bin/bash
 ```
 
+#### Note on cpufreq/scaling_cur_freq error
+
+Sometimes jobs that use chrome will crash with the following error
+
+```
+[0707/070947.640825:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
+[0707/070947.640877:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
+```
+
+In most of the cases, the error is caused by limited space of /dev/shm. To avoid this issue incrase the shm_size when running the docker --shm-size=1g
